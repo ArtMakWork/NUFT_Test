@@ -158,7 +158,7 @@ public class B_LoginActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://nuft.esy.es/zapiti.php")
+                    .url(UsedObjects.SERVER)
                     .post(formBody)
                     .build();
 

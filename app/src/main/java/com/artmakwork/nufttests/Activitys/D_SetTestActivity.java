@@ -155,7 +155,7 @@ public class D_SetTestActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://nuft.esy.es/zapiti.php")
+                    .url("http://UsedObjects.SERVER/zapiti.php")
                     .post(formBody)
                     .build();
 
@@ -201,7 +201,7 @@ public class D_SetTestActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://nuft.esy.es/zapiti.php")
+                    .url("http://UsedObjects.SERVER/zapiti.php")
                     .post(formBody)
                     .build();
 

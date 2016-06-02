@@ -37,4 +37,15 @@
         android:text="Вихід"
         android:id="@+id/g_btn_exit"
         android:layout_centerInParent="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create by \n \tArtem Makarenko \n \t \t \t Denis Grynko "
+        android:id="@+id/g_tv_authors"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="20dp" />
 </RelativeLayout>

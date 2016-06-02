@@ -124,7 +124,7 @@ public class C_SetThemaActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://nuft.esy.es/zapiti.php")
+                    .url("http://UsedObjects.SERVER/zapiti.php")
                     .post(formBody)
                     .build();
 
