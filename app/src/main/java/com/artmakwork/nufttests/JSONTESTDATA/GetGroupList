@@ -1,0 +1,21 @@
+{
+  "GroupList":[
+    {
+      "Group_id":"1",
+      "Fakultet":"АКС",
+      "Kurs":"2",
+      "Group_num":"3"
+    },
+    {
+      "Group_id":"2",
+      "Fakultet":"АКС",
+      "Kurs":"2",
+      "Group_num":"4"
+    },
+    {
+      "Group_id":"3",
+      "Fakultet":"АКС",
+      "Kurs":"2",
+      "Group_num":"5"
+    }]
+}

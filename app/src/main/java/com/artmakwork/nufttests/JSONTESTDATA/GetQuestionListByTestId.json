@@ -1,0 +1,70 @@
+{
+  "questions": [
+    {
+      "question": "Сколько лет ежику?",
+      "answ_count": "1",
+      "answers": [
+        {
+          "answ_id": "1",
+          "answ": "94"
+        },
+        {
+          "answ_id": "2",
+          "answ": "49"
+        },
+        {
+          "answ_id": "3",
+          "answ": "14"
+        },
+        {
+          "answ_id": "4",
+          "answ": "19"
+        }
+      ]
+    },
+    {
+      "question": "Кукушка-кукушка, сколько мне жить осталось?",
+      "answ_count": "1",
+      "answers": [
+        {
+          "answ_id": "1",
+          "answ": "10"
+        },
+        {
+          "answ_id": "2",
+          "answ": "15"
+        },
+        {
+          "answ_id": "3",
+          "answ": "25"
+        },
+        {
+          "answ_id": "4",
+          "answ": "30"
+        }
+      ]
+    },
+    {
+      "question": "Как много каши ел Фрейд по утрам?",
+      "answ_count": "2",
+      "answers": [
+        {
+          "answ_id": "1",
+          "answ": "2"
+        },
+        {
+          "answ_id": "2",
+          "answ": "3"
+        },
+        {
+          "answ_id": "3",
+          "answ": "1"
+        },
+        {
+          "answ_id": "4",
+          "answ": "0"
+        }
+      ]
+    }
+  ]
+}
