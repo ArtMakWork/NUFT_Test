@@ -80,10 +80,13 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkSelectedAnswer();
-                Intent intent = new Intent(getApplicationContext(), E_PassTestActivity.class);
-                startActivity(intent);
-                finish();
+                if (checkSelectedAnswer() == true){
+                    Intent intent = new Intent(getApplicationContext(), E_PassTestActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else{
+                    Toast.makeText(getApplicationContext(),"Оберіть менше варіантів",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -97,9 +100,11 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Повернення заборонено.", Toast.LENGTH_SHORT).show();
     }
 
-    private void checkSelectedAnswer(){
+    private boolean checkSelectedAnswer(){
+        boolean countTrue = true;
         String finalAnswer = "-1";
         int count = 0;
+        int correctCount = 0;
         if (listView.getChoiceMode()== AbsListView.CHOICE_MODE_SINGLE){
             Log.d("419", String.valueOf(String.valueOf(listView.getCheckedItemPosition())));
             finalAnswer = String.valueOf(listView.getCheckedItemPosition());
@@ -110,15 +115,23 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
                 int key = sbArray.keyAt(i);
                 if (sbArray.get(key)){
                     Log.d("419", String.valueOf(key));
-                    if(count == 0){
-                        finalAnswer = String.valueOf(key);
+
+                    if (correctCount >= Integer.valueOf(UsedObjects.myExam.getQuestions().get(UsedObjects.question_id).getAnsw_count())){
+                        Toast.makeText(getApplicationContext(),"Обрано більше ніж можливо",Toast.LENGTH_SHORT).show();
+                        countTrue = false;
                     }else{
-                        finalAnswer = finalAnswer+"," + String.valueOf(key);
+                        if(count == 0){
+                            finalAnswer = String.valueOf(key);
+                        }else{
+                            finalAnswer = finalAnswer+"," + String.valueOf(key);
+                        }
+                        count++;
+                        correctCount++;
                     }
-                    count++;
                 }
             }
             UsedObjects.finalAnswer = finalAnswer;
         }
+    return countTrue;
     }
 }
