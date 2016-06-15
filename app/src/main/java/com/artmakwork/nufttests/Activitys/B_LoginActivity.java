@@ -100,7 +100,7 @@ public class B_LoginActivity extends AppCompatActivity {
                         finish();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "Перевірте номер заліковки", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Перевірте введні данні", Toast.LENGTH_LONG).show();
                     }
                 }
             }

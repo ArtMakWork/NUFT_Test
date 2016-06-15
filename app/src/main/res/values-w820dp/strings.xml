@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="authors_info">Create by \n \tArtem Makarenko \n \t \t \t Denis Grynko</string>
+    <string name="authors_info">Create by
+                                \n \t Artem Makarenko
+                                \n \t Denis Grynko
+                                \n \t \t По вопросам ошибок писать:
+                                \n \t \t \t https://vk.com/makar_zigel
+                                \n \t \t \t https://vk.com/grinko_denis
+    </string>
 </resources>

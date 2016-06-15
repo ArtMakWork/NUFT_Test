@@ -60,30 +60,31 @@ public class G_sendDataActivity extends AppCompatActivity {
 
         Log.d("419","JSON→"+jsonArray);
 
-        //send
-        try {
-            isDataSaved = new sendDataOnServer().execute(jsonArray).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        Log.d("419","SR create "+UsedObjects.serverResponse.toString());
+
+        if (UsedObjects.serverResponse.getPointResp().equals("point")){
+            Log.d("419","Data send");
+            //send
+            try {
+                isDataSaved = new sendDataOnServer().execute(jsonArray).get();
+                UsedObjects.serverResponse = jsonToServerResponse(isDataSaved);
+                Log.d("419","SR server "+UsedObjects.serverResponse.toString());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }else{
+            Log.d("419","data was sent earlier");
         }
 
-
-
-        ServerResponse serverResponse = new ServerResponse(null, null);
-        Log.d("419","SR create "+serverResponse.toString());
-        try {
-            serverResponse = jsonToServerResponse(isDataSaved);
-            Log.d("419","SR server "+serverResponse.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if (serverResponse.getTxtResp().equals("Results saved")){
-            tvRequest.setText(serverResponse.getTxtResp());
+        if (UsedObjects.serverResponse.getTxtResp().equals("Results saved")){
+            tvRequest.setText(UsedObjects.serverResponse.getTxtResp());
             tvRequest.setTextColor(getResources().getColor(R.color.colorGreen));
-            tvResult.setText("Ваш результат: " + serverResponse.getPointResp());
+            tvResult.setText("Ваш результат: " + UsedObjects.serverResponse.getPointResp());
             btnExit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -95,7 +96,7 @@ public class G_sendDataActivity extends AppCompatActivity {
             btnExit.setVisibility(View.INVISIBLE);
             btnTryAgain.setVisibility(View.VISIBLE);
 
-            tvRequest.setText(serverResponse.getTxtResp());
+            tvRequest.setText(UsedObjects.serverResponse.getTxtResp());
             tvRequest.setTextColor(getResources().getColor(R.color.colorRed));
             tvRequest.setVisibility(View.INVISIBLE);
             tvResult.setText("Ваш результат: не збережено");
@@ -182,6 +183,8 @@ public class G_sendDataActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject(jsonString);
         return new ServerResponse(jsonObject.getString("points"), jsonObject.getString("response"));
     }
+
+
 
 
 }

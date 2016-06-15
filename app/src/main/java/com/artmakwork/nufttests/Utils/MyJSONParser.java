@@ -165,7 +165,7 @@ public class MyJSONParser {
             }
         }
         try {
-            exam = new Exam(questions,jsonRootObject.getString("variant_num"),/*jsonRootObject.getLong("time_pass")*1000*/1*60000);
+            exam = new Exam(questions,jsonRootObject.getString("variant_num"),jsonRootObject.getLong("time_pass")*1000);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import com.artmakwork.nufttests.POJO.Answer;
 import com.artmakwork.nufttests.POJO.Exam;
 import com.artmakwork.nufttests.POJO.Group;
 import com.artmakwork.nufttests.POJO.MyTest;
+import com.artmakwork.nufttests.POJO.ServerResponse;
 import com.artmakwork.nufttests.POJO.Thema;
 import com.artmakwork.nufttests.POJO.User;
 
@@ -40,6 +41,8 @@ public class UsedObjects {
     public static String finalAnswer = "-1";
     public static int question_id;
     public static boolean multiChoise;
+
+    public static ServerResponse serverResponse = new ServerResponse("point","txt");
 
 
 

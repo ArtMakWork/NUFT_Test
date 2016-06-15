@@ -57,15 +57,14 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
                 tvtimer.setText(minutes + ":" + seconds);
             }
             public void onFinish() {
-                Intent afinalActivityIntent = new Intent(getApplicationContext(),G_sendDataActivity.class);
-                startActivity(afinalActivityIntent);
-                finish();
+                Log.d("419", "time stop in answers");
+                tvtimer.setText("Час вийшов");
+                tvtimer.setTextColor(getResources().getColor(R.color.colorRed));
             }
         }.start();
 
         // show answers
-        //AnswerAdapter adapter = new AnswerAdapter(getApplicationContext(),answerList.get(question_id));
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
                                     android.R.layout.simple_list_item_multiple_choice,
                                     android.R.id.text1,
                                     UsedObjects.arrayListAnswer.get(UsedObjects.question_id).getArrListAnsw());
@@ -81,28 +80,7 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalAnswer = "-1";
-                int count = 0;
-                if (listView.getChoiceMode()== AbsListView.CHOICE_MODE_SINGLE){
-                    Log.d("419", String.valueOf(String.valueOf(listView.getCheckedItemPosition())));
-                    finalAnswer = String.valueOf(listView.getCheckedItemPosition());
-                    UsedObjects.finalAnswer = finalAnswer;
-                }else{
-                    SparseBooleanArray sbArray = listView.getCheckedItemPositions();
-                        for (int i = 0; i < sbArray.size(); i++) {
-                            int key = sbArray.keyAt(i);
-                            if (sbArray.get(key)){
-                                Log.d("419", String.valueOf(key));
-                                if(count == 0){
-                                    finalAnswer = String.valueOf(key);
-                                }else{
-                                    finalAnswer = finalAnswer+"," + String.valueOf(key);
-                                }
-                                count++;
-                            }
-                        }
-                    UsedObjects.finalAnswer = finalAnswer;
-                }
+                checkSelectedAnswer();
                 Intent intent = new Intent(getApplicationContext(), E_PassTestActivity.class);
                 startActivity(intent);
                 finish();
@@ -113,9 +91,34 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
 
 
 
+
     @Override
     public void onBackPressed() {
         Toast.makeText(getApplicationContext(), "Повернення заборонено.", Toast.LENGTH_SHORT).show();
     }
 
+    private void checkSelectedAnswer(){
+        String finalAnswer = "-1";
+        int count = 0;
+        if (listView.getChoiceMode()== AbsListView.CHOICE_MODE_SINGLE){
+            Log.d("419", String.valueOf(String.valueOf(listView.getCheckedItemPosition())));
+            finalAnswer = String.valueOf(listView.getCheckedItemPosition());
+            UsedObjects.finalAnswer = finalAnswer;
+        }else{
+            SparseBooleanArray sbArray = listView.getCheckedItemPositions();
+            for (int i = 0; i < sbArray.size(); i++) {
+                int key = sbArray.keyAt(i);
+                if (sbArray.get(key)){
+                    Log.d("419", String.valueOf(key));
+                    if(count == 0){
+                        finalAnswer = String.valueOf(key);
+                    }else{
+                        finalAnswer = finalAnswer+"," + String.valueOf(key);
+                    }
+                    count++;
+                }
+            }
+            UsedObjects.finalAnswer = finalAnswer;
+        }
+    }
 }

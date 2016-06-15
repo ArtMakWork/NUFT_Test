@@ -55,32 +55,26 @@ public class E_PassTestActivity extends AppCompatActivity {
 
 
 
-
-        //START Timer
-        new CountDownTimer(UsedObjects.myExam.getTime_pass(), 1000) {
-            public void onTick(long millisUntilFinished) {
-                UsedObjects.myExam.setTime_pass(millisUntilFinished);
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(UsedObjects.myExam.getTime_pass()));
-                long secondsFull = Long.valueOf(UsedObjects.myExam.getTime_pass());
-                secondsFull = secondsFull - (minutes)*60*1000;
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(secondsFull);
-                tvtimer.setText(minutes + ":" + seconds);
-            }
-            public void onFinish() {
-                Intent afinalActivityIntent = new Intent(getApplicationContext(),G_sendDataActivity.class);
-                startActivity(afinalActivityIntent);
-                finish();
-            }
-        }.start();
-
-
-        if (UsedObjects.question_id == -1){
-            UsedObjects.question_id = 0;
+        if (UsedObjects.myExam.getTime_pass()!=0){
+            //START Timer
+            new CountDownTimer(UsedObjects.myExam.getTime_pass(), 1000) {
+                public void onTick(long millisUntilFinished) {
+                    UsedObjects.myExam.setTime_pass(millisUntilFinished);
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(UsedObjects.myExam.getTime_pass()));
+                    long secondsFull = Long.valueOf(UsedObjects.myExam.getTime_pass());
+                    secondsFull = secondsFull - (minutes)*60*1000;
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(secondsFull);
+                    tvtimer.setText(minutes + ":" + seconds);
+                }
+                public void onFinish() {
+                    gotoNewActivity();
+                }
+            }.start();
+        }else{
+          gotoNewActivity();
         }
 
-        UsedObjects.user.getUser_answerList().set(UsedObjects.question_id, UsedObjects.finalAnswer);
-
-        Log.d("419", "user.getUser_answerList() after add  = " + UsedObjects.user.getUser_answerList().toString());
+        saveAnswerinSrting();
 
         // view lv
         ExamsAdapter adapter = new ExamsAdapter(getApplicationContext(),UsedObjects.myExam);
@@ -161,22 +155,25 @@ public class E_PassTestActivity extends AppCompatActivity {
 
     }
 
-    private void showArrayListAnswer(ArrayList<Answer> arr) {
-        for(int i = 0;i<arr.size();i++){
-            for(int j = 0;j<arr.get(i).getArrListAnsw().size();j++) {
-                Log.d("419","["+i+"]["+j+"]"+arr.get(i).getArrListAnsw().get(j));
-            }
-        }
+    private void gotoNewActivity() {
+        Log.d("419","time stop in passtest");
+        tvtimer.setText("Час вийшов");
+        tvtimer.setTextColor(getResources().getColor(R.color.colorRed));
+        saveAnswerinSrting();
+        Intent afinalActivityIntent = new Intent(getApplicationContext(),G_sendDataActivity.class);
+        startActivity(afinalActivityIntent);
+        finish();
     }
 
-    private void showArrayListString(ArrayList<String> arr) {
-        for(int i = 0;i<arr.size();i++){
-            Log.d("419","["+i+"]"+arr.get(i));
+    private void saveAnswerinSrting() {
+        if (UsedObjects.question_id == -1){
+            UsedObjects.question_id = 0;
         }
+
+        UsedObjects.user.getUser_answerList().set(UsedObjects.question_id, UsedObjects.finalAnswer);
+
+        Log.d("419", "user.getUser_answerList() after add  = " + UsedObjects.user.getUser_answerList().toString());
     }
-
-
-
 
     @Override
     public void onBackPressed() {
