@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class UsedObjects {
 
-    public static final String SERVER = "http://nuft.esy.es/zapiti.php";
+    public static final String SERVER = "*******************";
 
     public static User user = new User( "0","Name","Surname","FatherName",000000,
                                         new Group(0,"GroupName",0,0),new Thema(0,"ThemaName"),
