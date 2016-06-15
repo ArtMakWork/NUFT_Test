@@ -29,7 +29,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Пройти тест"
+        android:text="Пройти тест →"
         android:id="@+id/set_test_act_btn_startTest"
         android:layout_below="@+id/set_test_act_sp_Test"
         android:layout_alignRight="@+id/set_test_act_sp_Test"

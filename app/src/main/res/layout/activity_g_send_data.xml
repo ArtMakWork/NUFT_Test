@@ -41,11 +41,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create by \n \tArtem Makarenko \n \t \t \t Denis Grynko "
+        android:text="@string/authors_info"
         android:id="@+id/g_tv_authors"
+        android:layout_marginBottom="42dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="50dp"
-        android:layout_marginRight="20dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

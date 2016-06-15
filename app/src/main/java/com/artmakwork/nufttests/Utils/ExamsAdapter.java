@@ -1,6 +1,7 @@
 package com.artmakwork.nufttests.Utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,7 @@ import com.artmakwork.nufttests.POJO.Exam;
 import com.artmakwork.nufttests.POJO.Questions;
 import com.artmakwork.nufttests.R;
 
-/**
- * Created by HOME on 31.05.2016.
- */
+
 public class ExamsAdapter extends BaseAdapter {
 
     Exam exam;
@@ -47,7 +46,17 @@ public class ExamsAdapter extends BaseAdapter {
         }
         Questions questions = getQestion(position);
         TextView tv = (TextView) view.findViewById(R.id.lv_item_tv_quest_txt);
-        tv.setText(position+1+") "+questions.getQuestion());
+
+        int questPos = 0;
+        if(UsedObjects.user.getUser_answerList().get(position).equals("-1")){
+            questPos = position+1;
+            tv.setText("\t"+questPos+") "+questions.getQuestion());
+            tv.setTextColor(Color.parseColor("#FF0000"));
+        }else{
+            questPos = position+1;
+            tv.setText("\u2714"+"\t"+questPos+") "+questions.getQuestion());
+            tv.setTextColor(Color.parseColor("#00cc00"));
+        }
 
         return view;
     }

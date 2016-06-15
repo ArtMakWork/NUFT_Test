@@ -87,7 +87,7 @@ public class D_SetTestActivity extends AppCompatActivity {
 
                 if (isTestPass.equals("0")) {
                     //передать его на на следующее активить
-                    Intent intent = new Intent(getApplicationContext(), E_PassTestActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), DA_GetTestFromServer.class);
                     startActivity(intent);
                     finish();
                 } else {
@@ -155,7 +155,7 @@ public class D_SetTestActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://UsedObjects.SERVER/zapiti.php")
+                    .url(UsedObjects.SERVER)
                     .post(formBody)
                     .build();
 
@@ -201,7 +201,7 @@ public class D_SetTestActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://UsedObjects.SERVER/zapiti.php")
+                    .url(UsedObjects.SERVER)
                     .post(formBody)
                     .build();
 

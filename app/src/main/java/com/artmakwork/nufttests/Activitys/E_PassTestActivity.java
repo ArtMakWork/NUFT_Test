@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.artmakwork.nufttests.POJO.Answer;
@@ -21,8 +24,11 @@ import com.artmakwork.nufttests.Utils.MyJSONParser;
 import com.artmakwork.nufttests.Utils.UsedObjects;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -32,11 +38,10 @@ import okhttp3.Response;
 
 public class E_PassTestActivity extends AppCompatActivity {
 
-    private final OkHttpClient client = new OkHttpClient();
-
     ListView listView;
     Button btnSendData, btnExit;
-    AlertDialog.Builder ad,ad1;
+    AlertDialog.Builder ad,ad1,ad2;
+    TextView tvtimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,40 +51,28 @@ public class E_PassTestActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.pas_test_act_lv_exam);
         btnSendData = (Button)findViewById(R.id.pas_test_act_btn_send);
         btnExit = (Button)findViewById(R.id.e_btn_exit);
+        tvtimer = (TextView)findViewById(R.id.e_tv_timer);
 
-        //get Exams From SERVER
-        try {
-            UsedObjects.jsonStringExamList = new getExamsFromServer().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
 
-        //parse server answer
-        UsedObjects.myExam = MyJSONParser.jsonToExam(UsedObjects.jsonStringExamList);
-        UsedObjects.user.setUser_var_test(Integer.parseInt(UsedObjects.myExam.getVariant_num()));
 
-        //get Answers From SERVER
-        try {
-            UsedObjects.jsonStringAnswerList = new getAnswerFromServer().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
 
-        //Парсить ансвер
-        UsedObjects.arrayListAnswer = MyJSONParser.jsonToQuestionList(UsedObjects.jsonStringAnswerList);
-
-        if(UsedObjects.user.getUser_answerList().size()<UsedObjects.myExam.getQuestions().size()){
-            UsedObjects.user.getUser_answerList().clear();
-            for (int i = 0;i<UsedObjects.myExam.getQuestions().size();i++){
-                UsedObjects.user.getUser_answerList().add(i, "-1");
+        //START Timer
+        new CountDownTimer(UsedObjects.myExam.getTime_pass(), 1000) {
+            public void onTick(long millisUntilFinished) {
+                UsedObjects.myExam.setTime_pass(millisUntilFinished);
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(UsedObjects.myExam.getTime_pass()));
+                long secondsFull = Long.valueOf(UsedObjects.myExam.getTime_pass());
+                secondsFull = secondsFull - (minutes)*60*1000;
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(secondsFull);
+                tvtimer.setText(minutes + ":" + seconds);
             }
-        }
+            public void onFinish() {
+                Intent afinalActivityIntent = new Intent(getApplicationContext(),G_sendDataActivity.class);
+                startActivity(afinalActivityIntent);
+                finish();
+            }
+        }.start();
 
-        Log.d("419","user.getUser_answerList() onCreate = "+UsedObjects.user.getUser_answerList().toString());
 
         if (UsedObjects.question_id == -1){
             UsedObjects.question_id = 0;
@@ -97,8 +90,10 @@ public class E_PassTestActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String countCorrectAnswer = UsedObjects.myExam.getQuestions().get(position).getAnsw_count();
                 UsedObjects.question_id = position;
+
                 if (countCorrectAnswer.equals("1")){
                     UsedObjects.multiChoise = false;
                 }else {
@@ -181,94 +176,7 @@ public class E_PassTestActivity extends AppCompatActivity {
     }
 
 
-    class getExamsFromServer extends AsyncTask<Void, String, String> {
 
-        int responseCode = 0;
-        String myjsonString;
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            RequestBody formBody = new FormBody.Builder()
-                    .add("act", "GetQuestionListByTestId")
-                    .add("test_id", String.valueOf(UsedObjects.user.getUser_test().getTest_id()))
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url("http://UsedObjects.SERVER/zapiti.php")
-                    .post(formBody)
-                    .build();
-
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if ((responseCode = response.code()) == 200) {
-                try {
-                    myjsonString = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            if (!response.isSuccessful()) try {
-                throw new IOException("Unexpected code " + response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return myjsonString;
-        }
-    }
-
-    class getAnswerFromServer extends AsyncTask<Void, String, String> {
-
-        int responseCode = 0;
-        String myjsonString;
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            RequestBody formBody = new FormBody.Builder()
-                    .add("act", "GetAnswersByTestIdAndVariantNum")
-                    .add("test_id", String.valueOf(UsedObjects.user.getUser_test().getTest_id()))
-                    .add("variant_num", String.valueOf(UsedObjects.myExam.getVariant_num()))
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url("http://UsedObjects.SERVER/zapiti.php")
-                    .post(formBody)
-                    .build();
-
-            Response response = null;
-            try {
-                response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            if ((responseCode = response.code()) == 200) {
-                try {
-                    myjsonString = response.body().string();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            if (!response.isSuccessful()) try {
-                throw new IOException("Unexpected code " + response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return myjsonString;
-        }
-    }
 
     @Override
     public void onBackPressed() {

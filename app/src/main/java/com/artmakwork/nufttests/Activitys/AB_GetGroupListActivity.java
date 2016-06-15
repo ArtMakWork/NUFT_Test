@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.artmakwork.nufttests.R;
 import com.artmakwork.nufttests.Utils.UsedObjects;
@@ -18,7 +19,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class A_GetGroupListActivity extends AppCompatActivity {
+public class AB_GetGroupListActivity extends AppCompatActivity {
 
     private final OkHttpClient client = new OkHttpClient();
 
@@ -90,5 +91,9 @@ public class A_GetGroupListActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(), "Повернення заборонено.", Toast.LENGTH_SHORT).show();
+    }
 }
 

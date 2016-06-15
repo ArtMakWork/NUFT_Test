@@ -59,6 +59,7 @@ public class G_sendDataActivity extends AppCompatActivity {
 
 
         Log.d("419","JSON→"+jsonArray);
+
         //send
         try {
             isDataSaved = new sendDataOnServer().execute(jsonArray).get();
@@ -70,10 +71,11 @@ public class G_sendDataActivity extends AppCompatActivity {
 
 
 
-        ServerResponse serverResponse = null;
-
+        ServerResponse serverResponse = new ServerResponse(null, null);
+        Log.d("419","SR create "+serverResponse.toString());
         try {
             serverResponse = jsonToServerResponse(isDataSaved);
+            Log.d("419","SR server "+serverResponse.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -95,12 +97,13 @@ public class G_sendDataActivity extends AppCompatActivity {
 
             tvRequest.setText(serverResponse.getTxtResp());
             tvRequest.setTextColor(getResources().getColor(R.color.colorRed));
+            tvRequest.setVisibility(View.INVISIBLE);
             tvResult.setText("Ваш результат: не збережено");
 
             btnTryAgain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getApplicationContext(), E_PassTestActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), G_sendDataActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -126,7 +129,7 @@ public class G_sendDataActivity extends AppCompatActivity {
 
 
             Request request = new Request.Builder()
-                    .url("http://UsedObjects.SERVER/zapiti.php")
+                    .url(UsedObjects.SERVER)
                     .post(formBody)
                     .build();
 

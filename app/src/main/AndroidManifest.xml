@@ -11,20 +11,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activitys.A_GetGroupListActivity">
+        <activity android:name=".Activitys.A_CheckInternetConnection">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activitys.C_SetThemaActivity" />
+        <activity android:name=".Activitys.AB_GetGroupListActivity"/>
         <activity android:name=".Activitys.B_LoginActivity" />
+        <activity android:name=".Activitys.C_SetThemaActivity" />
         <activity android:name=".Activitys.D_SetTestActivity" />
+        <activity android:name=".Activitys.DA_GetTestFromServer" />
         <activity android:name=".Activitys.E_PassTestActivity" />
         <activity android:name=".Activitys.F_answerActivity_RadioBtn" />
-        <activity android:name=".Activitys.G_sendDataActivity">
-        </activity>
+        <activity android:name=".Activitys.G_sendDataActivity" />
     </application>
 
 </manifest>

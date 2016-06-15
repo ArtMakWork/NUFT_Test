@@ -124,7 +124,7 @@ public class C_SetThemaActivity extends AppCompatActivity {
                     .build();
 
             Request request = new Request.Builder()
-                    .url("http://UsedObjects.SERVER/zapiti.php")
+                    .url(UsedObjects.SERVER)
                     .post(formBody)
                     .build();
 

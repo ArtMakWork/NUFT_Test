@@ -3,6 +3,7 @@ package com.artmakwork.nufttests.Activitys;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,17 +26,13 @@ import com.artmakwork.nufttests.Utils.UsedObjects;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class F_answerActivity_RadioBtn extends AppCompatActivity {
 
     ListView listView;
     Button back;
-    TextView tvQuestTitle;
-    private static Activity activity;
-
-    public static Activity getActivity() {
-        return activity;
-    }
+    TextView tvQuestTitle, tvtimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +42,26 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.fa_rbg);
         back = (Button) findViewById(R.id.fa_btn_back);
         tvQuestTitle = (TextView) findViewById(R.id.fa_tv_qestion);
+        tvtimer = (TextView) findViewById(R.id.f_tv_timer);
 
         tvQuestTitle.setText(UsedObjects.myExam.getQuestions().get(UsedObjects.question_id).getQuestion());
+
+        //START Timer
+        new CountDownTimer(UsedObjects.myExam.getTime_pass(), 1000) {
+            public void onTick(long millisUntilFinished) {
+                UsedObjects.myExam.setTime_pass(millisUntilFinished);
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(UsedObjects.myExam.getTime_pass()));
+                long secondsFull = Long.valueOf(UsedObjects.myExam.getTime_pass());
+                secondsFull = secondsFull - (minutes)*60*1000;
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(secondsFull);
+                tvtimer.setText(minutes + ":" + seconds);
+            }
+            public void onFinish() {
+                Intent afinalActivityIntent = new Intent(getApplicationContext(),G_sendDataActivity.class);
+                startActivity(afinalActivityIntent);
+                finish();
+            }
+        }.start();
 
         // show answers
         //AnswerAdapter adapter = new AnswerAdapter(getApplicationContext(),answerList.get(question_id));
@@ -66,7 +81,7 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalAnswer = null;
+                String finalAnswer = "-1";
                 int count = 0;
                 if (listView.getChoiceMode()== AbsListView.CHOICE_MODE_SINGLE){
                     Log.d("419", String.valueOf(String.valueOf(listView.getCheckedItemPosition())));
@@ -87,7 +102,7 @@ public class F_answerActivity_RadioBtn extends AppCompatActivity {
                             }
                         }
                     UsedObjects.finalAnswer = finalAnswer;
-                    }
+                }
                 Intent intent = new Intent(getApplicationContext(), E_PassTestActivity.class);
                 startActivity(intent);
                 finish();
